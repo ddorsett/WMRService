@@ -24,16 +24,15 @@
     * `rainUnits` units for rain sensors, either in or mm (case insensitive). Default is `in`
 1. Start the service
     * Run the JAR file from the command line: `java -jar WMRService.jar`
-     * Or install as a service:
-        * Using the [NSSM utility](https://nssm.cc/) to create a Windows service that runs automatically on startup
+    * Or install as a service using the [NSSM utility](https://nssm.cc/) to create a Windows service that runs automatically on startup
         * From the command line: `nssm.exe install WMRService` 
-            * In the installation dialog:
-                * set __Application path__ to the java.exe from the installed JRE
-                * set __Startup directory__ to the directory with WMRService.jar
-                * set __Arguments_ to `-jar WMRservice.jar`
-                * on the __Details__ tab provide a nice Display name and Description
-                * on the __I/O tab__ specify a file for Output and Error redirection (e.g. WMRService.out and WMRService.err)
-                * on the __File rotation__ tab check Rotate Files and Rotate while service is running and use 86400 secs for rotation 1x per day		   
+        * In the installation dialog:
+            * set __Application path__ to the java.exe from the installed JRE
+            * set __Startup directory__ to the directory with WMRService.jar
+            * set __Arguments_ to `-jar WMRservice.jar`
+            * on the __Details__ tab provide a nice Display name and Description
+            * on the __I/O tab__ specify a file for Output and Error redirection (e.g. WMRService.out and WMRService.err)
+            * on the __File rotation__ tab check Rotate Files and Rotate while service is running and use 86400 secs for rotation 1x per day		   
 
 ##Building
 1. The 3 dependent JARs must be on the classpath
