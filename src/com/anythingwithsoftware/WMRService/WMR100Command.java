@@ -159,14 +159,23 @@ public class WMR100Command {
 			// temp sensors are multi-channel
 			val = ((256*(0x0F&data[4])) + WMRUtils.getInt(data[3])) / 10.0;
 			if ((data[4] & 0x80) != 0) val *= -1;
+			int rh = WMRUtils.getInt(data[5]);
+			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_HUMIDITY, (data[2] & 0x0F)), new Integer(rh));
+			double val2 = WMRUtils.heatIndex(val, rh);
+			if (queue.getTempUnit() == DataQueue.tempUnits.F)
+				val2 = (val2* 9.0 / 5.0) + 32.0;
+			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_HEATINDEX, (data[2] & 0x0F)), new Double(val2));
+			val2 = WMRUtils.windChill(val, lastWindSpeed);
+			if (queue.getTempUnit() == DataQueue.tempUnits.F)
+				val2 = (val2* 9.0 / 5.0) + 32.0;
+			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_WINDCHILL, (data[2] & 0x0F)), new Double(val2));
+			val2 = WMRUtils.dewPoint(val, rh);
+			if (queue.getTempUnit() == DataQueue.tempUnits.F)
+				val2 = (val2* 9.0 / 5.0) + 32.0;
+			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_DEWPOINT, (data[2] & 0x0F)), new Double(val2));
 			if (queue.getTempUnit() == DataQueue.tempUnits.F)
 				val = (val * 9.0 / 5.0) + 32.0;
 			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_TEMPERATURE, (data[2] & 0x0F)), new Double(val));
-			int rh = WMRUtils.getInt(data[5]);
-			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_HUMIDITY, (data[2] & 0x0F)), new Integer(rh));
-			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_HEATINDEX, (data[2] & 0x0F)), WMRUtils.heatIndex(val, rh));
-			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_WINDCHILL, (data[2] & 0x0F)), WMRUtils.windChill(val, lastWindSpeed));
-			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_DEWPOINT, (data[2] & 0x0F)), new Double(WMRUtils.dewPoint(val, rh)));
 			queue.addValue(String.format("%s/%d", WMR100Constants.ITEM_TEMPERATURE_BATTERY, (data[2] & 0x0F)), new Boolean(WMRUtils.isBatteryOn(data[0])));
 			break;
 		case WMR100Constants.SENSOR_WATERTEMP:

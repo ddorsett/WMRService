@@ -6,7 +6,7 @@
 package com.anythingwithsoftware.WMRService;
 
 public interface WMR100Constants {
-	static final String VERSION = "0.3.0 (30-Dec-2016)";
+	static final String VERSION = "0.3.1 (2-Jan-2017)";
 
 	// USB communications
 	static final int DEFAULT_STATION_VENDOR = 0x0FDE;
